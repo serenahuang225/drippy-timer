@@ -117,14 +117,30 @@ function App() {
               </button>
             </div>
             
-            <div className="progress-container">
+            <div 
+              className={`progress-container ${activeTimers[box.id] ? 'running' : ''}`}
+              style={{ '--water-level': `${box.progress}%` }}
+            >
               <div 
-                className="progress-fill"
+                className="water"
                 style={{ 
                   height: `${box.progress}%`,
                   backgroundColor: `hsl(${120 - box.progress * 1.2}, 70%, 50%)`
                 }}
-              />
+              >
+                <svg className="waves wave-back" viewBox="0 0 120 20" preserveAspectRatio="none">
+                  <path d="M0,10 Q 15,0 30,10 T 60,10 T 90,10 T 120,10 V20 H0 Z"></path>
+                  <path d="M0,10 Q 15,0 30,10 T 60,10 T 90,10 T 120,10 V20 H0 Z" transform="translate(120,0)"></path>
+                </svg>
+                <svg className="waves wave-front" viewBox="0 0 120 20" preserveAspectRatio="none">
+                  <path d="M0,10 Q 15,0 30,10 T 60,10 T 90,10 T 120,10 V20 H0 Z"></path>
+                  <path d="M0,10 Q 15,0 30,10 T 60,10 T 90,10 T 120,10 V20 H0 Z" transform="translate(120,0)"></path>
+                </svg>
+              </div>
+
+              <div className="droplet" />
+              <div className="splash" />
+
               <div className="progress-text">
                 {Math.round(box.progress)}%
               </div>

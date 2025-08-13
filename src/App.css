@@ -158,16 +158,75 @@
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-.progress-fill {
+/* Water layer with waves */
+.water {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background: linear-gradient(to top, #00b894, #00cec9);
-  transition: all 0.5s ease;
+  transition: height 0.5s ease, background-color 0.5s ease;
   border-radius: 0 0 13px 13px;
   box-shadow: 0 0 20px rgba(0, 184, 148, 0.3);
+  overflow: hidden;
 }
+
+.waves {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: 40px;
+  bottom: calc(100% - 18px);
+  fill: rgba(255,255,255,0.7);
+  opacity: 0.65;
+  animation: waveMove 6s linear infinite;
+}
+
+.wave-front { animation-duration: 5s; opacity: 0.9; }
+.wave-back { animation-duration: 9s; opacity: 0.5; transform: translateX(-50%); }
+
+/* Droplet that falls from top center */
+.droplet {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  width: 10px;
+  height: 18px;
+  margin-left: -5px;
+  background: #1e90ff;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+  opacity: 0;
+}
+
+/* Splash circles */
+.splash {
+  position: absolute;
+  left: 50%;
+  bottom: var(--water-level, 0%);
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, 50%) scale(0.5);
+  opacity: 0;
+}
+
+/* Enable animations only when timer is running */
+.progress-container.running .droplet {
+  animation: dropletFall 1.8s ease-in infinite;
+}
+.progress-container.running .splash {
+  animation: splashExpand 1.8s ease-out infinite;
+}
+.progress-container.running .waves {
+  animation-play-state: running;
+}
+
+/* Pause when not running */
+.waves { animation-play-state: paused; }
 
 .progress-text {
   position: absolute;
@@ -221,21 +280,45 @@
   }
 }
 
-/* Animation for drippy effect */
-@keyframes drip {
+/* Wave horizontal motion */
+@keyframes waveMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Droplet path from top to water level, fade in/out */
+@keyframes dropletFall {
   0% {
-    transform: scaleY(0);
+    transform: translate(-50%, 0) scale(1);
+    top: -20px;
     opacity: 0;
   }
-  50% {
+  10% { opacity: 1; }
+  70% {
+    top: calc(100% - var(--water-level, 0%));
     opacity: 1;
   }
   100% {
-    transform: scaleY(1);
-    opacity: 1;
+    top: calc(100% - var(--water-level, 0%));
+    opacity: 0;
+    transform: translate(-50%, 2px) scale(0.8);
   }
 }
 
-.progress-fill {
-  animation: drip 0.5s ease-out;
+/* Splash expand at water surface */
+@keyframes splashExpand {
+  0%, 60% {
+    opacity: 0;
+    transform: translate(-50%, 50%) scale(0.3);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, 50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.8), 0 0 0 6px rgba(255,255,255,0.3), 0 0 0 12px rgba(255,255,255,0.12);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 50%) scale(1.4);
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.0), 0 0 0 8px rgba(255,255,255,0.0), 0 0 0 16px rgba(255,255,255,0.0);
+  }
 }
