@@ -50,7 +50,7 @@
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
-  width: 60px;
+  width: 70px;
   font-family: inherit;
 }
 
@@ -94,7 +94,6 @@
   position: relative;
   width: 250px;
   height: 250px;
-  margin: 0 auto;
 }
 
 .timer-box:hover {
@@ -144,8 +143,8 @@
 }
 
 .timer-button.active {
-  background: linear-gradient(45deg, #00b894, #00cec9);
-  box-shadow: 0 0 15px rgba(0, 184, 148, 0.5);
+  background: linear-gradient(45deg, #6b7fff, #244cee);
+  box-shadow: 0 0 15px rgba(0, 28, 184, 0.5);
 }
 
 .progress-container {
@@ -164,10 +163,10 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(to top, #00b894, #00cec9);
+  background: linear-gradient(to bottom, #6b7fff, #244cee);
   transition: height 0.5s ease, background-color 0.5s ease;
   border-radius: 0 0 13px 13px;
-  box-shadow: 0 0 20px rgba(0, 184, 148, 0.3);
+  box-shadow: 0 0 20px rgba(0, 28, 184, 0.5);
   overflow: hidden;
 }
 
@@ -175,15 +174,17 @@
   position: absolute;
   left: 0;
   width: 200%;
-  height: 40px;
-  bottom: calc(100% - 18px);
+  height: 48px;
+  bottom: calc(100% - 20px);
   fill: rgba(255,255,255,0.7);
   opacity: 0.65;
-  animation: waveMove 6s linear infinite;
+  animation: waveDrift 6s ease-in-out infinite alternate;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-.wave-front { animation-duration: 5s; opacity: 0.9; }
-.wave-back { animation-duration: 9s; opacity: 0.5; transform: translateX(-50%); }
+.wave-front { opacity: 0.9; animation-duration: 5s; animation-delay: -1.25s; }
+.wave-back { opacity: 0.5; animation-duration: 9s; animation-delay: -2.75s; }
 
 /* Droplet that falls from top center */
 .droplet {
@@ -280,11 +281,11 @@
   }
 }
 
-
-/* Wave horizontal motion */
-@keyframes waveMove {
+/* Wave back-and-forth motion */
+@keyframes waveDrift {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  50% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 /* Droplet path from top to water level, fade in/out */
@@ -296,11 +297,11 @@
   }
   10% { opacity: 1; }
   70% {
-    top: calc(100% - var(--water-level, 0%));
+    top: calc(95% - var(--water-level, 0%));
     opacity: 1;
   }
   100% {
-    top: calc(100% - var(--water-level, 0%));
+    top: calc(95% - var(--water-level, 0%));
     opacity: 0;
     transform: translate(-50%, 2px) scale(0.8);
   }
