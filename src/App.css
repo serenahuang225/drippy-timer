@@ -2,7 +2,6 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
-  font-family: "Fuzzy Bubbles", sans-serif;
 }
 
 .header {
@@ -193,8 +192,8 @@
   left: 50%;
   width: 10px;
   height: 18px;
-  margin-left: -5px;
   background: #1e90ff;
+  /* border-radius: 15px; */
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
   filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
   opacity: 0;
@@ -207,7 +206,6 @@
   bottom: var(--water-level, 0%);
   width: 4px;
   height: 4px;
-  margin-left: -2px;
   background: rgba(255,255,255,0.9);
   border-radius: 50%;
   pointer-events: none;
@@ -217,10 +215,10 @@
 
 /* Enable animations only when timer is running */
 .progress-container.running .droplet {
-  animation: dropletFall 1.8s ease-in infinite;
+  animation: dropletFall 1s ease-in infinite;
 }
 .progress-container.running .splash {
-  animation: splashExpand 1.8s ease-out infinite;
+  animation: splashExpand 1s ease-out infinite;
 }
 .progress-container.running .waves {
   animation-play-state: running;
@@ -297,11 +295,11 @@
   }
   10% { opacity: 1; }
   70% {
-    top: calc(95% - var(--water-level, 0%));
+    top: calc(100% - var(--water-level, 0%) - 9px);
     opacity: 1;
   }
   100% {
-    top: calc(95% - var(--water-level, 0%));
+    top: calc(100% - var(--water-level, 0%) - 9px);
     opacity: 0;
     transform: translate(-50%, 2px) scale(0.8);
   }

@@ -65,7 +65,7 @@ function App() {
         }
         return box;
       }));
-    }, 100); // Update more frequently for smoother animation
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [activeTimers]);
